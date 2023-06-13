@@ -1,0 +1,162 @@
+@startuml
+
+class com.reyhan.tpssanggau.Algorithm.DatabaseHelper {
+- String TAG
+- {static} String DATABASE_NAME
+- {static} int DATABASE_VERSION
+- Context myContext
++ {static} String TABLE_SAMPAH
++ {static} String id
++ {static} String sampah
++ {static} String koordinat
++ {static} String TABLE_graph
++ {static} String simpul_awal
++ {static} String simpul_simpul_tujuanl
++ {static} String jalur
++ {static} String bobot
++ {static} String angkutan_umum
++ {static} String no_trayek
++ {static} String simpul
++ void onCreate(SQLiteDatabase)
++ void onUpgrade(SQLiteDatabase,int,int)
++ void addAngkot(ArrayList<NodeModel>)
++ void addGrap(ArrayList<GraphModel>)
++ void addSampah(ArrayList<DestinyModel>)
++ void deleteAllData(String)
++ Cursor readAllData(String)
+}
+class com.reyhan.tpssanggau.Activity.MainActivity {
+- String TAG
+~ DatabaseHelper dbHelper
+~ Cursor cursor
+~ GoogleMap googleMap
++ String __global_endposition
++ String __global_startposition
++ int __global_simpul_awal
++ int __global_simpul_akhir
++ String __global_old_simpul_awal
++ String __global_old_simpul_akhir
++ int __global_maxRow0
++ int __global_maxRow1
+- String[][] __global_graphArray
+- LatLng __global_yourCoordinate_exist
+- MapFragment mapFragment
+- DatabaseReference mDatabase
+~ int PERMISSION_ID
+- Location lastLocation
+- LocationRequest locationRequest
+- GoogleApiClient googleApiClient
+- int UPDATE_INTERVAL
+- int FASTEST_INTERVAL
+- ArrayList<ListTerminalModel> listTerminalModels
+- ArrayList<DestinyModel> listDestiny
+- DatabaseReference mUsers
+~ Marker marker
+~ MaterialCardView popUpWidow
+~ Dialog mDialog
+~ int REQUEST_CHECK_SETTINGS_GPS
+- int naikKe
+~ float distanceInMeters
+~ int pos
+# void onCreate(Bundle)
+- void createGoogleApi()
+- void getLastKnownLocation()
+- boolean checkPermission()
+- void requestPermissions()
++ void onRequestPermissionsResult(int,String[],int[])
+- void startLocationUpdates()
+- void dialogEnableGPS()
+# void onActivityResult(int,int,Intent)
+- void getDestiny()
+- void getNode()
+- void getGraph()
+- void setTerminal()
+- boolean isAvaiTerminal(LatLng)
+- void setUpSpinner()
+# void onRestart()
++ void onMapReady(GoogleMap)
++ void onMapClick(LatLng)
++ void startingScript(double,double,double,double)
++ void drawJalur(String,String[])
+- void checkLocation(double,double)
+- boolean checkTerminal(LatLng)
++ void getSimpulAwalAkhirJalur(GetKoordinatAwalAkhir,double,double,String)
++ void deleteTemporaryRecord()
++ void maxRowDB()
++ void onMapLongClick(LatLng)
+- BitmapDescriptor bitmapDescriptorFromVector(Context,int)
+- boolean isGPSON()
++ void onConnected(Bundle)
++ void onConnectionSuspended(int)
++ void onConnectionFailed(ConnectionResult)
++ void onLocationChanged(Location)
+}
+
+class com.reyhan.tpssanggau.Algorithm.TambahSimpul {
+# Cursor cursor
+~ DatabaseHelper dbHelper
++ String[][] modif_graph
++ String simpul_lama
++ int simpul_baru
+~ String simpul_tujuan_
++ void dobelSimpul(int,int,int,Context,String[][],int)
++ void singleSimpul(int,int,int,Context,String[][],int)
++ void createAndSave_NewJsonCoordinate(int,int,JSONArray,int,int,int,double,SQLiteDatabase,SQLiteDatabase)
+}
+
+
+class com.reyhan.tpssanggau.Algorithm.GraphToArray {
+~ DatabaseHelper dbHelper
+~ SQLiteDatabase db
+# Cursor cursor
+~ String[][] graph
++ String[][] convertToArray(Context)
+}
+class com.reyhan.tpssanggau.Algorithm.CountBobotTambahSimpul {
+~ double bobot
++ void Count_Bobot_Tambah_Simpul(int,int,JSONArray)
+}
+
+
+class com.reyhan.tpssanggau.Algorithm.GetKoordinatAwalAkhir {
+~ Cursor cursor
+~ int fix_simpul_awal
+~ String explode_lat_only
+~ Location posisiUser
+~ ArrayList<String> a_tmp_graph
+~ JSONObject jadi_json
+~ List<String> barisDobel
+~ List<String> indexBarisYgDikerjakan
++ JSONObject Get_simpul(double,double,Context)
+}
+class com.reyhan.tpssanggau.Algorithm.Dijkstra {
+- String TAG
+~ DatabaseHelper dbHelper
+~ Cursor cursor
+~ String[][] graph
++ String jalur_terpendek1
++ String status
++ void jalurTerpendek(String[][],int,int)
+}
+
+
+
+com.google.android.gms.maps.OnMapReadyCallback <|.. com.reyhan.tpssanggau.Activity.MainActivity
+com.reyhan.tpssanggau.Activity.OnMapClickListener <|.. com.reyhan.tpssanggau.Activity.MainActivity
+com.reyhan.tpssanggau.Activity.OnMapLongClickListener <|.. com.reyhan.tpssanggau.Activity.MainActivity
+com.reyhan.tpssanggau.Activity.ConnectionCallbacks <|.. com.reyhan.tpssanggau.Activity.MainActivity
+com.reyhan.tpssanggau.Activity.OnConnectionFailedListener <|.. com.reyhan.tpssanggau.Activity.MainActivity
+com.google.android.gms.location.LocationListener <|.. com.reyhan.tpssanggau.Activity.MainActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.reyhan.tpssanggau.Activity.MainActivity
+com.reyhan.tpssanggau.Algorithm.Dijkstra <|-- com.reyhan.tpssanggau.Algorithm.GetKoordinatAwalAkhir
+com.reyhan.tpssanggau.Algorithm.TambahSimpul <|-- com.reyhan.tpssanggau.Algorithm.CountBobotTambahSimpul
+com.reyhan.tpssanggau.Algorithm.GetKoordinatAwalAkhir -- com.reyhan.tpssanggau.Algorithm.DatabaseHelper
+com.reyhan.tpssanggau.Algorithm.TambahSimpul -- com.reyhan.tpssanggau.Algorithm.DatabaseHelper
+com.reyhan.tpssanggau.Algorithm.GraphToArray -- com.reyhan.tpssanggau.Algorithm.DatabaseHelper
+com.reyhan.tpssanggau.Algorithm.Dijkstra -- com.reyhan.tpssanggau.Algorithm.DatabaseHelper
+com.reyhan.tpssanggau.Algorithm.Dijkstra <|-- com.reyhan.tpssanggau.Algorithm.GraphToArray
+com.reyhan.tpssanggau.Activity.MainActivity <|-- com.reyhan.tpssanggau.Algorithm.GetKoordinatAwalAkhir
+com.reyhan.tpssanggau.Activity.MainActivity <|-- com.reyhan.tpssanggau.Algorithm.Dijkstra
+com.reyhan.tpssanggau.Activity.MainActivity <|-- com.reyhan.tpssanggau.Algorithm.TambahSimpul
+com.reyhan.tpssanggau.Activity.MainActivity <|-- com.reyhan.tpssanggau.Algorithm.GraphToArray
+@enduml

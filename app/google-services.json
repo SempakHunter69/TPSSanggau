@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "732914496759",
+    "project_id": "tpssanggau",
+    "storage_bucket": "tpssanggau.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732914496759:android:6be5df540cc7625a608ff2",
+        "android_client_info": {
+          "package_name": "com.reyhan.tpssanggau"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732914496759-l0tdgho7s3v7r0mlssf88446qv8rb4lj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWl6S43paP74d1Be419aLVhaG1rE5jxLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "732914496759-l0tdgho7s3v7r0mlssf88446qv8rb4lj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
